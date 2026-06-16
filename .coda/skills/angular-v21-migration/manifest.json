@@ -1,0 +1,6 @@
+{
+  "name": "angular-v21-migration",
+  "version": "1.0.0",
+  "description": "Rewrites legacy AngularJS (1.x) code into modern Angular v21 using Standalone Components, Signals, inject(), modern control flow (@if/@for/@switch), and HttpClient. Removes $scope, $http, $q, and NgModule patterns.",
+  "entrypoint": "SKILL.md"
+}
