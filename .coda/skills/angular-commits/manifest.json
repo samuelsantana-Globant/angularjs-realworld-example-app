@@ -1,0 +1,6 @@
+{
+  "name": "angular-commits",
+  "version": "2.0.0",
+  "description": "Groups staged Angular files by feature folder, infers Conventional Commit types, proposes commit messages, and executes each commit after user approval.",
+  "entrypoint": "SKILL.md"
+}
