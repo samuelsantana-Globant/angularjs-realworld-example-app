@@ -1,0 +1,6 @@
+{
+  "name": "css-to-tailwind",
+  "version": "1.0.0",
+  "description": "Converts legacy CSS, SASS, LESS, and BEM classes into modern utility-first Tailwind CSS classes within Angular v21 HTML templates. Removes stylesheet bloat and maps pixel values, colors, flexbox, and grid rules to Tailwind equivalents.",
+  "entrypoint": "SKILL.md"
+}
