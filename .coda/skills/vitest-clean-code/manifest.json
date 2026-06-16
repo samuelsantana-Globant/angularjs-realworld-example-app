@@ -1,0 +1,6 @@
+{
+  "name": "vitest-clean-code",
+  "version": "1.0.0",
+  "description": "Reviews migrated Angular v21 TypeScript code for Clean Code compliance and writes fast, reliable unit tests using Vitest. Enforces single responsibility, guard clauses, descriptive naming, no magic values, and proper TestBed setup for Standalone Components with Signals.",
+  "entrypoint": "SKILL.md"
+}
