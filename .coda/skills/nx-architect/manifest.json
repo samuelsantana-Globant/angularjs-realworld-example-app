@@ -1,0 +1,6 @@
+{
+  "name": "nx-architect",
+  "version": "1.0.0",
+  "description": "Manages an Nx monorepo containing a modern Angular v21 app and a legacy AngularJS app running simultaneously via the Strangler Fig routing pattern. Handles proxy configuration, Nx CLI commands, project.json setup, and safe coexistence of both apps.",
+  "entrypoint": "SKILL.md"
+}
