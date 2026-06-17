@@ -1,0 +1,44 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "legacy",
+  "projectType": "application",
+  "sourceRoot": "apps/legacy/src",
+  "tags": ["app:legacy", "stack:angularjs", "runtime:docker"],
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "continuous": true,
+      "options": {
+        "command": "docker compose up legacy --build",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker build -t conduit-legacy:local ./apps/legacy",
+        "cwd": "{workspaceRoot}"
+      },
+      "outputs": []
+    },
+    "docker-build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "docker build -t conduit-legacy:local ./apps/legacy",
+        "cwd": "{workspaceRoot}"
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "echo '[legacy] Lint skipped — Node 10 constraint. Runs inside Docker only.'"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "echo '[legacy] No automated tests defined yet.'"
+      }
+    }
+  }
+}
