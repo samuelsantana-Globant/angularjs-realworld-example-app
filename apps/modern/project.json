@@ -1,0 +1,71 @@
+{
+  "name": "modern",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/modern/src",
+  "tags": ["app:modern", "stack:angular21", "runtime:native"],
+  "targets": {
+    "build": {
+      "executor": "@angular/build:application",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/modern",
+        "browser": "apps/modern/src/main.ts",
+        "tsConfig": "apps/modern/tsconfig.app.json",
+        "assets": [
+          { "glob": "**/*", "input": "apps/modern/public" }
+        ],
+        "styles": ["apps/modern/src/styles.css"]
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            { "type": "initial", "maximumWarning": "500kb", "maximumError": "1mb" },
+            { "type": "anyComponentStyle", "maximumWarning": "4kb", "maximumError": "8kb" }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      }
+    },
+    "serve": {
+      "continuous": true,
+      "executor": "@angular/build:dev-server",
+      "defaultConfiguration": "development",
+      "configurations": {
+        "production": { "buildTarget": "modern:build:production" },
+        "development": { "buildTarget": "modern:build:development" }
+      },
+      "options": {
+        "port": 4200,
+        "proxyConfig": "apps/modern/proxy.conf.json"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "serve-static": {
+      "continuous": true,
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "modern:build",
+        "staticFilePath": "dist/apps/modern/browser",
+        "spa": true
+      }
+    },
+    "docker-build": {
+      "executor": "nx:run-commands",
+      "dependsOn": ["build"],
+      "options": {
+        "command": "docker build -t conduit-modern:local -f apps/modern/Dockerfile .",
+        "cwd": "{workspaceRoot}"
+      }
+    }
+  }
+}
