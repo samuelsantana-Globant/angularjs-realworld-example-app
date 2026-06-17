@@ -1,10 +1,8 @@
-version: "3.9"
-
 # ─── Conduit Monorepo — Full-Stack Docker Compose ───────────────────────────────
 # Services:
 #   proxy   – Nginx reverse proxy (port 80) applying Strangler Fig routing
-#   modern  – Angular 21 app served by Nginx (port 4200, internal only)
-#   legacy  – AngularJS app via gulp + BrowserSync on Node 10 (port 4201, internal only)
+#   modern  – Angular 21 app served by Nginx (port 4200 → host:4200)
+#   legacy  – AngularJS app via gulp + BrowserSync on Node 10 (port 4201 → host:4201)
 #
 # Usage:
 #   docker compose up --build          # start everything
@@ -21,16 +19,16 @@ services:
       dockerfile: Dockerfile
     image: conduit-legacy:local
     container_name: conduit-legacy
-    expose:
-      - "4201"
+    ports:
+      - "4201:4201"
     networks:
       - conduit-net
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:4201"]
+      test: ["CMD-SHELL", "node -e \"require('http').get('http://127.0.0.1:4201',function(r){process.exit(r.statusCode<400?0:1)}).on('error',function(){process.exit(1)})\""]
       interval: 15s
       timeout: 5s
       retries: 5
-      start_period: 30s
+      start_period: 45s
 
   # ── Modern Angular 21 app (Nginx serving built output) ────────────────────────
   modern:
@@ -39,12 +37,12 @@ services:
       dockerfile: apps/modern/Dockerfile
     image: conduit-modern:local
     container_name: conduit-modern
-    expose:
-      - "4200"
+    ports:
+      - "4200:80"
     networks:
       - conduit-net
     healthcheck:
-      test: ["CMD", "wget", "-qO-", "http://localhost:4200"]
+      test: ["CMD-SHELL", "wget -qO /dev/null http://127.0.0.1 || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 3
