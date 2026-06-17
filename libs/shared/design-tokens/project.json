@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "shared-design-tokens",
+  "projectType": "library",
+  "sourceRoot": "libs/shared/design-tokens/src",
+  "tags": ["lib:design-tokens", "scope:shared"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

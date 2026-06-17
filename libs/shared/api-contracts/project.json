@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "shared-api-contracts",
+  "projectType": "library",
+  "sourceRoot": "libs/shared/api-contracts/src",
+  "tags": ["lib:api-contracts", "scope:shared"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

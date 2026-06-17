@@ -1,0 +1,12 @@
+{
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "name": "shared-ui",
+  "projectType": "library",
+  "sourceRoot": "libs/shared/shared-ui/src",
+  "tags": ["lib:shared-ui", "scope:shared"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}
