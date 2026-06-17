@@ -22,4 +22,4 @@ FROM nginx:1.27-alpine AS runner
 COPY --from=builder /workspace/dist/apps/modern/browser /usr/share/nginx/html
 COPY apps/modern/nginx.app.conf /etc/nginx/conf.d/default.conf
 
-EXPOSE 4200
+EXPOSE 80
