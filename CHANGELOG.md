@@ -6,6 +6,20 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [v2.0.0] - 2026-06-18
+
+### Breaking Changes
+- wire app root component, routes and DI config (modern/shell) (f85a55f) -- NgModule pattern removed; app shell is fully Angular 21 standalone
+- add Angular 21 core layer (modern/core) (5b26f68) -- replaces legacy $http/$q with standalone HttpClient + signals
+
+### Features
+- add all page components -- home, auth, article, editor, settings, profile (modern/features) (fb35faa)
+- add reusable standalone UI components (modern/shared) (0c1c59b)
+- add standalone Header and Footer components (modern/layout) (7f10d2c)
+- add Angular 21 core layer -- models, services, auth interceptor (modern/core) (5b26f68)
+
+---
+
 ## [v1.0.0] - 2026-06-17
 
 ### ✨ Features
