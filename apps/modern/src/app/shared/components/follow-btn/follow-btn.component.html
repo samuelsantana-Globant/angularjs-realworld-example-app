@@ -1,0 +1,10 @@
+<button
+  class="btn btn-sm"
+  [class.btn-secondary]="profile().following"
+  [class.btn-outline-secondary]="!profile().following"
+  [disabled]="isSubmitting()"
+  (click)="toggleFollow()">
+  <i class="ion-plus-round"></i>
+  &nbsp;
+  {{ profile().following ? 'Unfollow' : 'Follow' }} {{ profile().username }}
+</button>
