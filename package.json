@@ -1,6 +1,6 @@
 {
   "name": "conduit-workspace",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "start": "nx serve modern",
@@ -53,5 +53,7 @@
     "node": ">=18.0.0",
     "npm": ">=9.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "marked": "^18.0.5"
+  }
 }

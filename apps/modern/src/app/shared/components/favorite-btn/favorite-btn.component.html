@@ -1,0 +1,9 @@
+<button
+  class="btn btn-sm"
+  [class.btn-primary]="article().favorited"
+  [class.btn-outline-primary]="!article().favorited"
+  [disabled]="isSubmitting()"
+  (click)="toggleFavorite()">
+  <i class="ion-heart"></i>
+  {{ article().favoritesCount }}
+</button>

@@ -1,0 +1,19 @@
+<div class="article-preview">
+  <app-article-meta [article]="displayArticle">
+    <app-favorite-btn
+      class="pull-xs-right"
+      [article]="displayArticle"
+      (articleChange)="onArticleChange($event)" />
+  </app-article-meta>
+
+  <a [routerLink]="['/article', displayArticle.slug]" class="preview-link">
+    <h1>{{ displayArticle.title }}</h1>
+    <p>{{ displayArticle.description }}</p>
+    <span>Read more...</span>
+    <ul class="tag-list">
+      @for (tag of displayArticle.tagList; track tag) {
+        <li class="tag-default tag-pill tag-outline">{{ tag }}</li>
+      }
+    </ul>
+  </a>
+</div>

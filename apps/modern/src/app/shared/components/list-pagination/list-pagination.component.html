@@ -1,0 +1,13 @@
+@if (totalPages() > 1) {
+  <nav>
+    <ul class="pagination">
+      @for (pageNumber of pageRange(); track pageNumber) {
+        <li class="page-item" [class.active]="pageNumber === currentPage()">
+          <a class="page-link" href="" (click)="$event.preventDefault(); changePage(pageNumber)">
+            {{ pageNumber }}
+          </a>
+        </li>
+      }
+    </ul>
+  </nav>
+}
