@@ -1,0 +1,131 @@
+@if (article()) {
+  <div class="article-page">
+
+    <div class="banner">
+      <div class="container">
+        <h1>{{ article()!.title }}</h1>
+        <div class="article-meta">
+          <app-article-meta [article]="article()!">
+            @if (canModify()) {
+              <span>
+                <a class="btn btn-sm btn-outline-secondary" [routerLink]="['/editor', article()!.slug]">
+                  <i class="ion-edit"></i> Edit Article
+                </a>
+                <button class="btn btn-sm btn-outline-danger"
+                  [class.disabled]="isDeleting()"
+                  (click)="deleteArticle()">
+                  <i class="ion-trash-a"></i> Delete Article
+                </button>
+              </span>
+            } @else {
+              <span>
+                <app-follow-btn
+                  [profile]="article()!.author"
+                  (profileChange)="article.update(a => a ? { ...a, author: $event } : a)" />
+                <app-favorite-btn
+                  [article]="article()!"
+                  (articleChange)="onArticleChange($event)" />
+              </span>
+            }
+          </app-article-meta>
+        </div>
+      </div>
+    </div>
+
+    <div class="container page">
+
+      <div class="row article-content">
+        <div class="col-xs-12">
+          <div [innerHTML]="articleBodyHtml()"></div>
+          <ul class="tag-list">
+            @for (tag of article()!.tagList; track tag) {
+              <li class="tag-default tag-pill tag-outline">{{ tag }}</li>
+            }
+          </ul>
+        </div>
+      </div>
+
+      <hr />
+
+      <div class="article-actions">
+        <app-article-meta [article]="article()!">
+          @if (canModify()) {
+            <span>
+              <a class="btn btn-sm btn-outline-secondary" [routerLink]="['/editor', article()!.slug]">
+                <i class="ion-edit"></i> Edit Article
+              </a>
+              <button class="btn btn-sm btn-outline-danger"
+                [class.disabled]="isDeleting()"
+                (click)="deleteArticle()">
+                <i class="ion-trash-a"></i> Delete Article
+              </button>
+            </span>
+          } @else {
+            <span>
+              <app-follow-btn
+                [profile]="article()!.author"
+                (profileChange)="article.update(a => a ? { ...a, author: $event } : a)" />
+              <app-favorite-btn
+                [article]="article()!"
+                (articleChange)="onArticleChange($event)" />
+            </span>
+          }
+        </app-article-meta>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12 col-md-8 offset-md-2">
+
+          @if (isAuthenticated()) {
+            <app-list-errors [errors]="commentErrors()" />
+            <form class="card comment-form" (ngSubmit)="addComment()">
+              <fieldset [disabled]="isSubmittingComment()">
+                <div class="card-block">
+                  <textarea class="form-control" placeholder="Write a comment..."
+                    rows="3" [(ngModel)]="commentBody" name="commentBody"></textarea>
+                </div>
+                <div class="card-footer">
+                  @if (currentUser()?.image) {
+                    <img [src]="currentUser()!.image" class="comment-author-img" [alt]="currentUser()!.username" />
+                  }
+                  <button class="btn btn-sm btn-primary" type="submit">Post Comment</button>
+                </div>
+              </fieldset>
+            </form>
+          } @else {
+            <p>
+              <a routerLink="/login">Sign in</a> or
+              <a routerLink="/register">sign up</a> to add comments on this article.
+            </p>
+          }
+
+          @for (comment of comments(); track comment.id; let index = $index) {
+            <div class="card">
+              <div class="card-block">
+                <p class="card-text">{{ comment.body }}</p>
+              </div>
+              <div class="card-footer">
+                <a class="comment-author" [routerLink]="['/profile', comment.author.username]">
+                  <img [src]="comment.author.image" class="comment-author-img" [alt]="comment.author.username" />
+                </a>
+                &nbsp;
+                <a class="comment-author" [routerLink]="['/profile', comment.author.username]">
+                  {{ comment.author.username }}
+                </a>
+                <span class="date-posted">{{ comment.createdAt | date: 'longDate' }}</span>
+                @if (currentUser()?.username === comment.author.username) {
+                  <span class="mod-options">
+                    <i class="ion-trash-a" (click)="deleteComment(comment.id, index)"></i>
+                  </span>
+                }
+              </div>
+            </div>
+          }
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+}

@@ -1,13 +1,16 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { NxWelcome } from './nx-welcome';
+import { HeaderComponent } from './layout/header/header.component';
+import { FooterComponent } from './layout/footer/footer.component';
 
 @Component({
-  imports: [NxWelcome, RouterModule],
   selector: 'app-root',
-  templateUrl: './app.html',
-  styleUrl: './app.css',
+  standalone: true,
+  imports: [RouterModule, HeaderComponent, FooterComponent],
+  template: `
+    <app-header />
+    <router-outlet />
+    <app-footer />
+  `,
 })
-export class App {
-  protected title = 'modern';
-}
+export class App {}

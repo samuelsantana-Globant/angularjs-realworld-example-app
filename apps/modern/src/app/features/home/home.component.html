@@ -1,0 +1,74 @@
+<div class="home-page">
+
+  @if (!isAuthenticated()) {
+    <div class="banner">
+      <div class="container">
+        <h1 class="logo-font">{{ appName }}</h1>
+        <p>A place to share your knowledge.</p>
+      </div>
+    </div>
+  }
+
+  <div class="container page">
+    <div class="row">
+
+      <div class="col-md-9">
+        <div class="feed-toggle">
+          <ul class="nav nav-pills outline-active">
+
+            @if (isAuthenticated()) {
+              <li class="nav-item">
+                <a href="" class="nav-link"
+                  [class.active]="listConfig().type === 'feed'"
+                  (click)="$event.preventDefault(); changeList('feed')">
+                  Your Feed
+                </a>
+              </li>
+            }
+
+            <li class="nav-item">
+              <a href="" class="nav-link"
+                [class.active]="listConfig().type === 'all' && !listConfig().filters?.['tag']"
+                (click)="$event.preventDefault(); changeList('all')">
+                Global Feed
+              </a>
+            </li>
+
+            @if (listConfig().filters?.['tag']) {
+              <li class="nav-item">
+                <a href="" class="nav-link active">
+                  <i class="ion-pound"></i> {{ listConfig().filters!['tag'] }}
+                </a>
+              </li>
+            }
+          </ul>
+        </div>
+
+        <app-article-list [listConfig]="listConfig()" [limit]="10" />
+      </div>
+
+      <div class="col-md-3">
+        <div class="sidebar">
+          <p>Popular Tags</p>
+
+          @if (!tagsLoaded()) {
+            <div>Loading tags...</div>
+          } @else if (tags().length === 0) {
+            <div class="post-preview">No tags are here... yet.</div>
+          } @else {
+            <div class="tag-list">
+              @for (tag of tags(); track tag) {
+                <a href="" class="tag-default tag-pill"
+                  (click)="$event.preventDefault(); filterByTag(tag)">
+                  {{ tag }}
+                </a>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
