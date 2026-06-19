@@ -4,8 +4,8 @@ class ArticleListCtrl {
 
     this._Articles = Articles;
 
-    this.setListTo(this.listConfig);
-
+    // NOTE: bindings are NOT yet resolved in the constructor.
+    // Initial load is deferred to $onInit where '@' bindings are guaranteed available.
 
     $scope.$on('setListTo', (ev, newList) => {
       this.setListTo(newList);
@@ -15,6 +15,10 @@ class ArticleListCtrl {
       this.setPageTo(pageNumber);
     });
 
+  }
+
+  $onInit() {
+    this.setListTo(this.listConfig);
   }
 
   setListTo(newList) {
@@ -34,10 +38,13 @@ class ArticleListCtrl {
   }
 
 
- runQuery() {
+  runQuery() {
     // Show the loading indicator
     this.loading = true;
     this.listConfig = this.listConfig || {};
+
+    // Parse limit as integer - the '@' binding delivers it as a string
+    const limit = parseInt(this.limit, 10);
 
     // Create an object for this query
     let queryConfig = {
@@ -46,7 +53,7 @@ class ArticleListCtrl {
     };
 
     // Set the limit filter from the component's attribute
-    queryConfig.filters.limit = this.limit;
+    queryConfig.filters.limit = limit;
 
     // If there is no page set, set page as 1
     if (!this.listConfig.currentPage) {
@@ -54,7 +61,7 @@ class ArticleListCtrl {
     }
 
     // Add the offset filter
-    queryConfig.filters.offset = (this.limit * (this.listConfig.currentPage - 1));
+    queryConfig.filters.offset = (limit * (this.listConfig.currentPage - 1));
 
     // Run the query
     this._Articles
@@ -66,7 +73,7 @@ class ArticleListCtrl {
           // Update list and total pages
           this.list = res.articles;
 
-          this.listConfig.totalPages = Math.ceil(res.articlesCount / this.limit);
+          this.listConfig.totalPages = Math.ceil(res.articlesCount / limit);
         }
       );
   }
@@ -75,7 +82,7 @@ class ArticleListCtrl {
 
 let ArticleList = {
   bindings: {
-    limit: '=',
+    limit: '@',
     listConfig: '='
   },
   controller: ArticleListCtrl,
