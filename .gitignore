@@ -45,3 +45,7 @@ src/js/config/app.templates.js
 .nx/workspace-data
 dist/
 
+# Legacy AngularJS Gulp build artifacts
+apps/legacy/build/
+apps/legacy/dist/
+

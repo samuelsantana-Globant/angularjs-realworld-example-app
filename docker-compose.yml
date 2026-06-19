@@ -2,7 +2,7 @@
 # Services:
 #   proxy   – Nginx reverse proxy (port 80) applying Strangler Fig routing
 #   modern  – Angular 21 app served by Nginx (port 4200 → host:4200)
-#   legacy  – AngularJS app via gulp + BrowserSync on Node 10 (port 4201 → host:4201)
+#   legacy  – AngularJS app built by gulp + served by Nginx (port 4201 → host:4201)
 #
 # Usage:
 #   docker compose up --build          # start everything
@@ -12,7 +12,7 @@
 
 services:
 
-  # ── Legacy AngularJS app (Node 10 inside Docker) ──────────────────────────────
+  # ── Legacy AngularJS app (Node 10 build → Nginx serve) ────────────────────────
   legacy:
     build:
       context: ./apps/legacy
@@ -24,11 +24,11 @@ services:
     networks:
       - conduit-net
     healthcheck:
-      test: ["CMD-SHELL", "node -e \"require('http').get('http://127.0.0.1:4201',function(r){process.exit(r.statusCode<400?0:1)}).on('error',function(){process.exit(1)})\""]
-      interval: 15s
+      test: ["CMD-SHELL", "wget -qO /dev/null http://127.0.0.1:4201 || exit 1"]
+      interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 45s
+      start_period: 20s
 
   # ── Modern Angular 21 app (Nginx serving built output) ────────────────────────
   modern:
@@ -59,8 +59,6 @@ services:
     networks:
       - conduit-net
     depends_on:
-      legacy:
-        condition: service_healthy
       modern:
         condition: service_healthy
     restart: unless-stopped
